@@ -4,5 +4,6 @@
   remote_user: root
 
   roles:
-    - role: apache
-    - role: php
+#    - role: apache
+#    - role: php
+    - role: mysql

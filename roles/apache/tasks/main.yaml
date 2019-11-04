@@ -58,12 +58,24 @@
   with_items: "{{ domains }}"
   notify: restart apache
 
+- name: Add favicon
+  copy:
+    src: "files/favicon.ico"
+    dest: "/var/www/{{ item }}/DOC_ROOT/favicon.ico"
+    owner: '{{ item }}'
+    group: '{{ item }}'
+    mode: 0444
+  vars:
+    t_domain: "{{ item }}"
+  with_items: "{{ domains }}"
+  notify: restart apache
+
 - name: Set MaxUsers
   lineinfile:
     path: /etc/apache2/apache2.conf
     regexp: '^'
     insertafter: EOF
-    line: 'MaxClients 256'
+    line: 'MaxClients 25'
 
 - name: Klyaple
   lineinfile:

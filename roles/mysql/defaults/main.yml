@@ -1,14 +1,9 @@
 ---
 ## General
-mysql_flavour: mysql
-# Alt option:
-# mysql_flavour: mariadb
 
 mysql_user: mysql
 mysql_group: mysql
 
-## Service options
-# start on boot
 mysql_service_enabled: true
 # current state: started, stopped
 mysql_service_state: started
@@ -31,7 +26,7 @@ mysql_databases: []
 
 # Users.
 mysql_root_user: root
-mysql_root_password: default
+mysql_root_password: secret
 
 mysql_users: []
 #   - name: example
@@ -39,10 +34,6 @@ mysql_users: []
 #     password: secret
 #     priv: [ '*.*:USAGE' ]
 
-# Remounting settings
-mysql_remount_run: true
-## This variable has to include the magnitude M,G...
-mysql_remount_run_partition_size: 512M
 
 ## Options file groups with options to define System variables
 ## Check https://dev.mysql.com/doc/refman/5.7/en/option-files.html
