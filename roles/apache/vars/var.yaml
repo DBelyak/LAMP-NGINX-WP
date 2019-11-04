@@ -1,7 +1,7 @@
 ---
 apache_packages:
   - apache2
-#  - libapache2-mpm-itk
+  - libapache2-mpm-itk
 #  - ufw
 apache_services:
   - apache2

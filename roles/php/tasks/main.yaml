@@ -8,5 +8,9 @@
     state: present
 
 - name: "create check PHP install file"
-  template: src=check.php dest=/var/www/site.ru/DOC_ROOT/check.php
+  template: 
+    src: check.php 
+    dest: /var/www/site.ru/DOC_ROOT/check.php
+    owner: site.ru
+    group: site.ru
 

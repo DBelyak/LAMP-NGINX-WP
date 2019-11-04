@@ -1,5 +1,5 @@
-<?php.
-echo get_current_user ();
+<?php
+echo get_current_user();
 echo phpinfo() ?>
 
 

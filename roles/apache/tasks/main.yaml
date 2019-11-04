@@ -67,10 +67,10 @@
 
 - name: Klyaple
   lineinfile:
-    dest=/etc/hosts
-    regexp='^'
-    insertafter=EOF
-    line='127.0.0.1     site.ru\n127.0.0.1      site-2.ru'
+    dest: /etc/hosts
+    regexp: '^'
+    insertafter: EOF
+    line: '127.0.0.1     site.ru\n127.0.0.1      site-2.ru'
 
 
 

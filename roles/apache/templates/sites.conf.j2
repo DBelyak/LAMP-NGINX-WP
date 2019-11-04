@@ -9,9 +9,9 @@ Listen {{ http_port }}
         AllowOverride All
         Require all granted
     </Directory>
-#    <IfModule mpm_itk_module>
-#	AssignUserId {{ t_domain }} {{ t_domain }}
-#    </IfModule>
+    <IfModule mpm_itk_module>
+	AssignUserId {{ t_domain }} {{ t_domain }}
+    </IfModule>
     ErrorLog /var/www/{{ t_domain }}/logs/error.log
     CustomLog /var/www/{{ t_domain }}/logs/access.log combined
     php_admin_value error_log /var/www/{{ t_domain }}/logs/php.error.log
