@@ -16,9 +16,9 @@ Listen {{ http_port }}
     CustomLog /var/www/{{ t_domain }}/logs/access.log combined
     php_admin_value error_log /var/www/{{ t_domain }}/logs/php.error.log
 
-    php_admin_value open_basedir "/var/www/{{ t_domain }}/"
-    php_admin_value upload_tmp_dir "/var/www/{{ t_domain }}/tmp"
-    php_admin_value session.save_path "/var/www/{{ t_domain }}/sessions"
+    php_admin_value open_basedir /var/www/{{ t_domain }}/
+    php_admin_value upload_tmp_dir /var/www/{{ t_domain }}/tmp
+    php_admin_value session.save_path /var/www/{{ t_domain }}/sessions
 </VirtualHost>
 
 

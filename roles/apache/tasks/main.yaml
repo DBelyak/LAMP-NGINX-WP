@@ -58,12 +58,12 @@
   with_items: "{{ domains }}"
   notify: restart apache
 
-#- name: Set MaxUsers
-#  lineinfile:
-#    path: /etc/apache2/apache2.conf
-#    regexp: '^'
-#    insertafter: EOF
-#    line: 'MaxClients 256'
+- name: Set MaxUsers
+  lineinfile:
+    path: /etc/apache2/apache2.conf
+    regexp: '^'
+    insertafter: EOF
+    line: 'MaxClients 256'
 
 - name: Klyaple
   lineinfile:
@@ -74,12 +74,12 @@
 
 
 
-#- name: Запрет доступа к директориям .svn  .git
-#  blockinfile:
-#    path: /etc/apache2/apache2.conf
-#    marker: '# {mark} added by ansible:Deny access to dirs: .git  .svn'
-#    state: present
-#    block: |
-#      <DirectoryMatch .*\.svn|.git/.*>
-#          Deny From All
-#      </DirectoryMatch>
+- name: Запрет доступа к директориям .svn  .git
+  blockinfile:
+    path: /etc/apache2/apache2.conf
+    marker: '# {mark} added by ansible:Deny access to dirs: .git  .svn'
+    state: present
+    block: |
+      <DirectoryMatch .*\.svn|.git/.*>
+          Deny From All
+      </DirectoryMatch>
