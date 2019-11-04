@@ -1,0 +1,85 @@
+---
+- name:  Gather some variables
+  include_vars: "var.yaml"
+
+- name: Add Users
+  include_tasks: usersadd.yaml
+
+- name: Install PM
+  package: name='aptitude' update_cache=yes state=latest force_apt_get=yes
+
+- name: Install packages
+  package: name="{{ apache_packages }}" update_cache=yes state=latest
+
+- name: Enable Apache rewrite module
+  apache2_module: name=rewrite state=present
+  notify: restart apache
+
+- name: Create dirs and files for sites
+  include_tasks: dirs.yaml
+
+- name: Add Apache virtualhosts
+  template:
+    src: "templates/sites.conf.j2"
+    dest: "/etc/apache2/sites-available/{{ item }}.conf"
+    owner: root
+    group: root
+    mode: 0644
+  vars:
+    t_domain: "{{ item }}"
+  with_items: "{{ domains }}"
+  notify: restart apache
+
+- name: Symlink virtualhost to sites-enabled.
+  file:
+    src: "/etc/apache2/sites-available/{{ item }}.conf"
+    dest: "/etc/apache2/sites-enabled/{{ item }}.conf"
+    state: link
+  vars:
+    t_domain: "{{ item }}"
+  with_items: "{{ domains }}"
+  notify: restart apache
+
+- name: Remove default virtualhost file.
+  file:
+    path: "/etc/apache2/sites-enabled/000-default.conf"
+    state: absent
+  notify: restart apache
+
+- name: Add simple index.html
+  template:
+    src: "templates/index.html.j2"
+    dest: "/var/www/{{ item }}/DOC_ROOT/index.html"
+    owner: '{{ item }}'
+    group: '{{ item }}'
+    mode: 0777
+  vars:
+    t_domain: "{{ item }}"
+  with_items: "{{ domains }}"
+  notify: restart apache
+
+#- name: Set MaxUsers
+#  lineinfile:
+#    path: /etc/apache2/apache2.conf
+#    regexp: '^'
+#    insertafter: EOF
+#    line: 'MaxClients 256'
+
+- name: Klyaple
+  lineinfile:
+    dest=/etc/hosts
+    regexp='^'
+    insertafter=EOF
+    line='127.0.0.1     site.ru\n127.0.0.1      site-2.ru'
+
+
+
+#- name: Запрет доступа к директориям .svn  .git
+#  blockinfile:
+#    path: /etc/apache2/apache2.conf
+#    marker: '# {mark} added by ansible:Deny access to dirs: .git  .svn'
+#    state: present
+#    block: |
+#      <DirectoryMatch .*\.svn|.git/.*>
+#          Deny From All
+#      </DirectoryMatch>

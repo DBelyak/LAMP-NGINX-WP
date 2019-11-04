@@ -1,0 +1,13 @@
+---
+
+- name: MySQL | Gather OS specific variables
+  include_vars: "var.yaml"
+
+
+- name: Sets Up PHP Info Page
+  template:
+    src: virt_site.j2
+    dest: "/tmp/info{{ item }}.php"
+  vars:
+    test: "{{ item }}"
+  with_items: "{{ sites }}"

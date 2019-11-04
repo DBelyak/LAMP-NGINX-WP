@@ -1,0 +1,9 @@
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    DocumentRoot "{{ test }}"
+
+    <Directory "{{ test }}">
+        AllowOverride All
+        Require all granted
+    </Directory>
+</VirtualHost>

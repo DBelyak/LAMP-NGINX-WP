@@ -1,0 +1,89 @@
+1.Создать пользователей
+Содержимое каждого сайта будет находиться в собственном каталоге, поэтому создаём нового пользователя и отдельный каталог для разграничения прав доступа:
+ -b папка в которой будет создан каталог пользователя
+ -m создать каталог
+ -U создаём группу с таким же именем как у пользователя
+ -s /bin/false отключаем пользователю shell
+1.1 site.ru    
+	useradd site.ru -b /var/www/site.ru/ -m -U -s /bin/false
+1.2 site-2.ru
+	useradd site-2.ru -b /website/ -m -U -s /bin/false
+2.0 Подготовить площадки под сайты в /var/www со структурой DOC_ROOT, logs, sessions, tmp
+2.1 Создаем каталог для файлов под все сайты с правами 755
+	mkdir -m 755 /var/www
+2.2 site.ru
+2.3 site-2.ru
+2.4 Изменяем владельца и группу на каталог, включая вложенные папки
+	chown -R site.ru:site.ru /var/www/site.ru/
+	chown -R site-2.ru:site-2.ru /var/www/site-2.ru/
+2.5 Изменяем права доступа на каталог site.ru
+	chmod 755 /var/www/site.ru
+	chmod 755 /var/www/site-2.ru
+
+3.0 Устанавливаем nginx
+3.1 Скачиваем и прописываем ключ
+	sudo wget https://nginx.org/keys/nginx_signing.key
+	sudo apt-key add nginx_signing.key
+3.2 Добавляем репозитарий
+	sudo vi /etc/apt/sources.list
+	deb https://nginx.org/packages/mainline/debian/ stretch nginx
+	deb-src https://nginx.org/packages/mainline/debian/ stretch nginx
+3.3 Устанавливаем
+	$ sudo apt-get remove nginx-common
+	$ sudo apt-get update
+	$ sudo apt-get install nginx
+3.4 Запускаем
+	sudo nginx
+3.5 Проверяем работоспособность
+$ curl -I 127.0.0.1
+HTTP/1.1 200 OK
+Server: nginx/1.13.8
+3.6 Временно останавливаем
+
+4.0 Устанавливаем Appach
+
+4.8 Сообщение содержит информацию о сервере. В этом нет ничего плохого, но и хорошего тоже нет, поэтому запретим вывод этой инфы отредактировав файл /etc/apache2/conf-available/security.conf
+
+sudo nano /etc/apache2/conf-available/security.conf
+
+
+Находим строчки:
+
+ServerTokens OS
+
+ServerSignature On
+
+
+Меняем их на:
+
+ServerTokens Prod
+
+ServerSignature Off
+
+
+Сохраняем файл и рестартуем apache:
+
+sudo service apache2 restart
+4.9 Проверяем установку
+	sudo apache2ctl -t
+	sudo apache2ctl fullstatus — говорит сама за себя
+	sudo apache2ctl -v — версия apache
+	sudo apache2ctl -V — подробная инфа
+	sudo apache2ctl -l — скомпилированные модули
+	sudo apache2ctl -L — список доступных директив
+	sudo apache2ctl -t -D DUMP_VHOSTS — инфа о виртуальных хостах
+	sudo apache2ctl -t -D DUMP_RUN_CFG — с каким настройками запущен сервер
+	sudo apache2ctl -t -D DUMP_MODULES — какие модули загружены
+
+5.0 Устанавливаем PHP
+
+6.0 Устанавливаем MySQL
+
+apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5
+7.0 Устанавливаем WordPress
+
+8.0 Устанавливаем phpMyAdmin
+
+
+
+mc screen sudo nscd htop ntp zip unzip pigz iotop sysstat lsof strace atop multitail -y

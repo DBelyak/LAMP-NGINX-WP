@@ -1,0 +1,42 @@
+---
+- name: "Include variables"
+  include_vars: "debian.yaml"
+
+- name: "Ensure required PHP packages are present"
+  apt:
+    name: "{{ mysql_packages }}"
+    state: present
+
+#- name: "create check PHP install file"
+#  template: src=check.php dest=/var/www/html/check.php
+
+
+
+---
+
+- name: MySQL | Install
+  include_tasks: install_{{ mysql_flavour }}.yml
+  tags:
+    - install
+
+- name: MySQL | Configure
+  include_tasks: config.yml
+  tags:
+    - configure
+
+- name: MySQL | Users
+  include_tasks: users.yml
+  tags:
+    - configure
+    - users
+
+- name: MySQL | Databases
+  include_tasks: databases.yml
+  tags:
+    - configure
+    - databases
+
+- name: MySQL | Service
+  include_tasks: service.yml
+  tags:
+    - service

@@ -1,0 +1,22 @@
+---
+ hosts: testvm
+  become: yes
+  become_user: root
+
+
+- name: apply common configuration to all nodes
+  hosts: all
+  remote_user: root
+
+  roles:
+    - common
+
+  roles:
+    - role: php
+  vars:
+    http_port: 81
+    servername: localhost
+    domain: site.ru
+
+
+

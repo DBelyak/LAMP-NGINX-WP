@@ -1,0 +1,19 @@
+Listen {{ http_port }}
+<VirtualHost {{http_host }}:{{ http_port }}>
+    ServerAdmin webmaster@{{ t_domain }}
+    ServerName {{ t_domain }}
+    ServerAlias www.{{ t_domain }}
+    DocumentRoot /var/www/{{ t_domain }}/DOC_ROOT
+    <Directory /var/www/{{ t_domain }}/DOC_ROOT/>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+
